@@ -1,0 +1,28 @@
+# Основные зависимости
+aiogram==3.0.0      # Telegram bot API framework (совместим с Python 3.11)
+fastapi         # Web framework для REST API
+uvicorn==0.23.2          # ASGI server для FastAPI
+aiosqlite 
+redis==4.5.5             # Redis клиент для кэширования
+celery==5.3.1            # Task queue для фоновых задач
+flower==2.0.0            # Мониторинг Celery
+
+# Работа с XML (для интеграции с 1С)
+lxml==4.9.3              # Парсинг XML
+xmltodict==0.13.0        # Конвертация XML в JSON
+
+# Безопасность
+cryptography==41.0.4     # Шифрование данных
+pyjwt==2.8.0             # JWT токены
+bcrypt==4.0.1            # Хеширование паролей
+
+# Логирование и мониторинг
+sentry-sdk==1.23.0       # Отслеживание ошибок
+loguru==0.7.0            # Удобное логирование
+prometheus-client==0.17.1 # Метрики для мониторинга
+
+# Дополнительные зависимости
+pdfkit==1.0.0            # Генерация PDF
+phonenumbers==8.13.16    # Валидация номеров телефонов
+pytz==2023.3.post1       # Работа с часовыми поясами
+aiofiles                   # Асинхронная работа с файлами

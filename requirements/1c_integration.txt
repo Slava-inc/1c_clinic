@@ -1,0 +1,5 @@
+# Работа с 1С
+pandas==2.0.3          # Data manipulation
+openpyxl==3.1.2        # Excel processing
+zeep==4.2.1            # SOAP client for 1C integration
+sqlalchemy==2.0.20     # ORM for database interactions

@@ -1,0 +1,1 @@
+2025-08-06 17:22:21.421 | ERROR    | __main__:authenticate_user:129 - Ошибка при аутентификации пользователя: no such table: patients

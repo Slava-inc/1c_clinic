@@ -1,0 +1,12 @@
+# Платежные шлюзы
+requests==2.31.0         # HTTP запросы
+pydantic==1.10.12        # Валидация данных
+python-dotenv==1.0.0     # Работа с переменными окружения
+
+# Видео-консультации
+jitsi-meet==0.0.2        # Jitsi Meet интеграция
+zoomus==2.0.1            # Zoom API интеграция
+
+# Мониторинг и логирование
+elasticsearch==8.9.0     # Elasticsearch интеграция
+grafana-api==1.0.4       # Grafana API интеграция
