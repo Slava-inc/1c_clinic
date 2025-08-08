@@ -43,7 +43,9 @@ async def handle_contact(message: Message, state: FSMContext):
             "UPDATE patients SET telegram_id = ? WHERE id = ?", 
             (message.from_user.id, user[0])
         )
-        await message.answer(f"Добро пожаловать, {user[1]}!")
+        await message.answer(f"Добро пожаловать, {user[1]}!",
+                             reply_markup=KeyboardBuilder.build_main_menu()
+                             )
     else:
         # Предложение зарегистрироваться
         await message.answer(

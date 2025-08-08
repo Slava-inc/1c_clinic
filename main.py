@@ -6,6 +6,7 @@ from bot.handlers.auth import auth_router
 from bot.handlers.appointments import appointments_router
 from bot.handlers.analyses import analyses_router
 from bot.handlers.notifications import notifications_router
+from bot.handlers.main_menu import main_menu_router
 from tokens import TOKEN
 
 # Инициализация базы данных
@@ -34,7 +35,10 @@ async def start_bot():
     # Регистрация роутеров
     bot_core.register_routers(
         auth_router,
-        appointments_router
+        appointments_router,
+        main_menu_router,
+        analyses_router,
+        notifications_router
     )
 
     # Запуск бота в режиме long polling

@@ -6,7 +6,8 @@ from bot.keyboards.builder import KeyboardBuilder
 appointments_router = Router()
 
 @appointments_router.message(F.text == "Записаться на прием")
-async def schedule_appointment(message: Message, db: DatabaseService):
+async def schedule_appointment(message: Message):
+    db = DatabaseService('clinic.db')
     # Получаем список доступных врачей
     doctors = await db.fetch_all("SELECT id, name, specialization FROM doctors")
     if not doctors:
