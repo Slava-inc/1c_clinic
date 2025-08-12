@@ -5,21 +5,29 @@ from bot.keyboards.builder import KeyboardBuilder
 
 appointments_router = Router()
 
-@appointments_router.message(F.text == "Записаться на прием")
-async def schedule_appointment(message: Message):
+@appointments_router.callback_query(F.data == "schedule_appointment")
+async def schedule_appointment(callback: CallbackQuery):
     db = DatabaseService('clinic.db')
     # Получаем список доступных врачей
     doctors = await db.fetch_all("SELECT id, name, specialization FROM doctors")
     if not doctors:
-        await message.answer("К сожалению, сейчас нет доступных врачей.")
+        await callback.answer("К сожалению, сейчас нет доступных врачей.")
         return
+    else:
+        results = []
+        for doctor in doctors:
+            result = {'id': doctor[0], 'name': doctor[1], 'specialization': doctor[2]}
+            results.append(result)
+
 
     # Формируем клавиатуру с врачами
-    keyboard = KeyboardBuilder.build_doctors_keyboard(doctors)
-    await message.answer("Выберите врача:", reply_markup=keyboard)
+    await callback.answer()
+    keyboard = KeyboardBuilder.build_doctors_keyboard(results)
+    await callback.message.answer("Выберите врача:", reply_markup=keyboard)
 
 @appointments_router.callback_query(F.data.startswith("doctor_"))
-async def select_doctor(callback: CallbackQuery, db: DatabaseService):
+async def select_doctor(callback: CallbackQuery):
+    db = DatabaseService('clinic.db')
     doctor_id = int(callback.data.split("_")[1])
     # Получаем расписание врача
     schedule = await db.fetch_all(
@@ -30,12 +38,16 @@ async def select_doctor(callback: CallbackQuery, db: DatabaseService):
         await callback.message.answer("У выбранного врача нет свободных слотов.")
         return
 
+    # Преобразуем список кортежей в список словарей
+    schedule = [{"appointment_date": slot[0], "doctor_id": doctor_id} for slot in schedule]
+
     # Формируем клавиатуру со свободными слотами
     keyboard = KeyboardBuilder.build_schedule_keyboard(schedule)
     await callback.message.answer("Выберите удобное время:", reply_markup=keyboard)
 
 @appointments_router.callback_query(F.data.startswith("slot_"))
-async def confirm_appointment(callback: CallbackQuery, db: DatabaseService):
+async def confirm_appointment(callback: CallbackQuery):
+    db = DatabaseService('clinic.db')
     slot_data = callback.data.split("_")
     doctor_id = int(slot_data[1])
     appointment_date = slot_data[2]
@@ -51,4 +63,6 @@ async def confirm_appointment(callback: CallbackQuery, db: DatabaseService):
         (doctor_id, appointment_date)
     )
 
-    await callback.message.answer(f"Вы успешно записаны на {appointment_date}!")
+    await callback.message.answer(f"Вы успешно записаны на {appointment_date}!",
+                                  reply_markup=KeyboardBuilder.build_main_menu())
+

@@ -1,43 +1,49 @@
 # bot/handlers/main_menu.py
 from aiogram import Router, F
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from bot.keyboards.builder import KeyboardBuilder
 from constants import SPECIALITIES 
 
 main_menu_router = Router()
 
-@main_menu_router.message(F.text == "Главное меню")
-async def main_menu(message: Message):
-    await message.answer(
+@main_menu_router.callback_query(F.data == "Главное меню")
+async def main_menu(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer(
         "Выберите действие:",
         reply_markup=KeyboardBuilder.build_main_menu()
     )
 
-@main_menu_router.message(F.text == "Запись на прием")
-async def book_appointment(message: Message):
-    await message.answer(
+@main_menu_router.callback_query(F.data == "book_appointment")
+async def book_appointment(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer(
         "Выберите специализацию врача:",
         reply_markup=KeyboardBuilder.build_specialties_keyboard(SPECIALITIES)
     )
 
-@main_menu_router.message(F.text == "Вызов врача на дом")
-async def request_home_visit(message: Message):
-    await message.answer("Укажите адрес:")
+@main_menu_router.callback_query(F.data == "request_home_visit")
+async def request_home_visit(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer("Укажите адрес:")
 
-@main_menu_router.message(F.text == "Онлайн-консультации")
-async def start_consultation(message: Message):
-    await message.answer("Начать консультацию: [ссылка]")
+@main_menu_router.callback_query(F.data == "start_consultation")
+async def start_consultation(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer("Начать консультацию: [ссылка]")
 
-@main_menu_router.message(F.text == "Справки для налоговой")
-async def request_tax_certificate(message: Message):
-    await message.answer(
+@main_menu_router.callback_query(F.data == "request_tax_certificate")
+async def request_tax_certificate(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer(
         "Выберите тип справки:",
         reply_markup=KeyboardBuilder.build_certificate_types()
     )
 
-@main_menu_router.message(F.text == "Мои анализы")
-async def view_analyses(message: Message):
-    await message.answer(
+@main_menu_router.callback_query(F.data == "view_analyses")
+async def view_analyses(callback: CallbackQuery):
+    await callback.answer()
+    await callback.message.answer(
         "Выберите период:",
         reply_markup=KeyboardBuilder.build_period_selection()
     )
