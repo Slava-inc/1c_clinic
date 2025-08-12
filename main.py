@@ -7,6 +7,7 @@ from bot.handlers.appointments import appointments_router
 from bot.handlers.analyses import analyses_router
 from bot.handlers.notifications import notifications_router
 from bot.handlers.main_menu import main_menu_router
+from bot.handlers.home_visit import home_visit_router
 from tokens import TOKEN
 
 # Инициализация базы данных
@@ -15,7 +16,7 @@ async def init_database():
     Инициализация базы данных: выполнение SQL-скрипта из файла init_db.sql.
     """
     db = DatabaseService("clinic.db")
-    with open("migrations/init_db.sql", "r") as f:
+    with open("migrations/init_db.sql", "r", encoding='utf-8') as f:
         sql_script = f.read()
     await db.executescript(sql_script)
     print("Database initialized successfully.")
@@ -38,7 +39,8 @@ async def start_bot():
         appointments_router,
         main_menu_router,
         analyses_router,
-        notifications_router
+        notifications_router,
+        home_visit_router
     )
 
     # Запуск бота в режиме long polling

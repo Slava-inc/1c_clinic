@@ -75,3 +75,23 @@ CREATE TABLE IF NOT EXISTS mailing_logs (
     FOREIGN KEY(patient_id) REFERENCES patients(id),
     FOREIGN KEY(scenario_id) REFERENCES notification_scenarios(id)
 );
+
+-- Создание таблицы specializations
+CREATE TABLE IF NOT EXISTS specializations (
+    id INT AUTO_INCREMENT PRIMARY KEY,          -- Уникальный идентификатор специализации
+    name VARCHAR(255) NOT NULL,                 -- Название специализации
+    home_visit_available BOOLEAN NOT NULL      -- Доступен ли вызов врача на дом
+);
+
+-- Создание таблицы home_visits
+-- Создание таблицы home_visits
+CREATE TABLE IF NOT EXISTS home_visits (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,          -- Уникальный идентификатор заявки
+    patient_id INTEGER NOT NULL,                   -- Идентификатор пациента
+    specialization_id INTEGER NOT NULL,            -- Идентификатор специализации врача
+    address TEXT NOT NULL,                         -- Адрес пациента
+    preferred_time TIME NOT NULL,                  -- Предпочтительное время визита
+    status TEXT DEFAULT 'pending',                 -- Статус заявки (по умолчанию 'pending')
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Дата и время создания заявки
+    FOREIGN KEY (specialization_id) REFERENCES specializations(id) ON DELETE CASCADE
+);

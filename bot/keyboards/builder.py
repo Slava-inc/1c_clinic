@@ -7,7 +7,7 @@ class KeyboardBuilder:
         builder = InlineKeyboardBuilder()
         builder.add(
             InlineKeyboardButton(text="Записаться на прием", callback_data='schedule_appointment'),
-            InlineKeyboardButton(text="Вызов врача на дом", callback_data='request_home_visit'),
+            InlineKeyboardButton(text="Вызов врача на дом", callback_data='home_visit'),
             InlineKeyboardButton(text="Онлайн-консультация", callback_data='start_consultation'),
             InlineKeyboardButton(text="Справки для налоговой", callback_data='request_tax_certificate'),
             InlineKeyboardButton(text="Получить анализы", callback_data='view_analyses'),
